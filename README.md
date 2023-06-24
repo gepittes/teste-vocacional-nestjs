@@ -27,3 +27,13 @@
 ```bash
   npm run test
 ```
+
+### conexao com o banco de dados
+
+```bash
+ docker run --name teste-vocacional -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root -d mongo
+```
+
+após a criação do container adicione a uri de conexão as variaveis de ambiente -> ex: mongodb://root:root@localhost:27017/?authMechanism=DEFAULT
+
+caso voê altere alguma configuração verifique se isso altera a conexão
