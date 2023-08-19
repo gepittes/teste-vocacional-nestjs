@@ -12,7 +12,7 @@ export interface Participant extends UserCommon {
   phone: string;
   state: string;
   city: string;
-  scholarity: string;
+  scholarship: string;
   university: string;
 }
 

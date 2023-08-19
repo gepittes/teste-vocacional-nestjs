@@ -23,7 +23,7 @@ export const ParticipantSchema = new mongoose.Schema<Participant>({
     type: String,
     required: true,
   },
-  scholarity: {
+  scholarship: {
     type: String,
     required: true,
   },
