@@ -28,7 +28,7 @@ export class ParticipantController {
 
             return ResponseUtils.successResponse( req, res, response );
         } catch ( error ) {
-            return ResponseUtils.errorResponse( res, 404, 'Not found' )
+            return ResponseUtils.errorResponse( res, 404, 'Not found' );
         }
     }
 

@@ -21,6 +21,13 @@ export class ParticipantService {
     }
 
     async getAllParticipantPaginatedPerFilter( filter: any ): Promise<Paginated<Participant>> {
+        return {
+            items: [],
+            currentPage: 0,
+            itemsPerPage: 0,
+            totalCount: 0,
+            totalPages: 0
+        }
     }
 
     async registerParticipant(): Promise<Participant> {
