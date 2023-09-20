@@ -14,7 +14,7 @@ import { ParticipantModule } from './app/participant/participant.module';
 export class AppModule implements NestModule {
   constructor(private mongoConnectionService: MongoConnectionService) {}
 
-  configure( consumer: MiddlewareConsumer ): any {
+  configure(consumer: MiddlewareConsumer): any {
     /**
      * TODO: check how implements middleware to response
      */
