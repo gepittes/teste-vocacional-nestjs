@@ -28,7 +28,7 @@ describe(`${MongooseParticipantRepository.name}`, () => {
   });
 
   it('should be register a participant', async () => {
-    const participant: Participant = {
+    const participant: Omit<Participant, '_id'> = {
       city: 'participant.city',
       email: 'participant.email',
       nome: 'participant.nome',
@@ -43,5 +43,30 @@ describe(`${MongooseParticipantRepository.name}`, () => {
     } = await mongooseParticipantRepository.registerParticipant(participant);
 
     expect(createdParticipant).toHaveProperty('_id');
+  });
+
+  it('should be get a participant by id', async () => {
+    const participant: Omit<Participant, '_id'> = {
+      city: 'participant.city',
+      email: 'participant.email',
+      nome: 'participant.nome',
+      phone: 'participant.phone',
+      scholarship: 'participant.scholarship',
+      state: 'participant.state',
+      university: 'participant.university',
+    };
+
+    const {
+      items: [createdParticipant],
+    } = await mongooseParticipantRepository.registerParticipant(participant);
+
+    const searchedResponse =
+      await mongooseParticipantRepository.getParticipantById(
+        String(createdParticipant._id),
+      );
+
+    const [searchedParticipant] = searchedResponse.items;
+
+    expect(createdParticipant._id).toStrictEqual(searchedParticipant._id);
   });
 });
