@@ -17,10 +17,20 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     return Promise.resolve(undefined);
   }
 
-  getParticipantById(
+  async getParticipantById(
     participantId: string,
   ): Promise<ListResponse<Participant>> {
-    return Promise.resolve(undefined);
+    try {
+      const participant = (await ParticipantModel.findById(
+        participantId,
+      )) as Participant;
+
+      return {
+        items: [participant],
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   patchSomeDataParticipant(participant: Partial<Participant>): Promise<void> {
@@ -28,7 +38,7 @@ export class MongooseParticipantRepository implements ParticipantRepository {
   }
 
   async registerParticipant(
-    participant: Participant,
+    participant: Omit<Participant, '_id'>,
   ): Promise<ListResponse<Participant>> {
     try {
       const createdParticipant = (await ParticipantModel.create(

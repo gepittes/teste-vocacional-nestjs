@@ -30,7 +30,7 @@ export interface ParticipantRepository {
    * @param participant
    */
   registerParticipant(
-    participant: Participant,
+    participant: Omit<Participant, '_id'>,
   ): Promise<ListResponse<Participant>>;
 
   /**

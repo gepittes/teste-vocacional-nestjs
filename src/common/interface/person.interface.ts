@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export interface UserCommon {
+  _id: ObjectId;
   nome: string;
   email: string;
   typeUser?: TypeUser;
