@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import { TypeUser, User } from 'src/common/interface/person.interface';
 
 export const UserSchema = new mongoose.Schema<User>({
-  nome: {
+  name: {
     type: String,
     required: true,
   },

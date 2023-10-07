@@ -3,7 +3,7 @@ import { PaginatedRequest } from './requests.interface';
 
 export interface UserCommon {
   _id: ObjectId;
-  nome: string;
+  name: string;
   email: string;
   typeUser?: TypeUser;
 }

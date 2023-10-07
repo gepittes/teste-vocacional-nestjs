@@ -5,7 +5,7 @@ import {
 } from '../../../../common/interface/person.interface';
 
 export const ParticipantSchema = new mongoose.Schema<Participant>({
-  nome: {
+  name: {
     type: String,
     required: true,
   },

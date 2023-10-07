@@ -30,7 +30,7 @@ describe(`${MongooseParticipantRepository.name}`, () => {
   it('should be register a participant', async () => {
     const participant: Omit<Participant, '_id'> = {
       email: 'participant.email',
-      nome: 'participant.name',
+      name: 'participant.name',
       phone: 'participant.phone',
     };
 
@@ -44,7 +44,7 @@ describe(`${MongooseParticipantRepository.name}`, () => {
   it('should be get a participant by id', async () => {
     const participant: Omit<Participant, '_id'> = {
       email: 'participant.email',
-      nome: 'participant.name',
+      name: 'participant.name',
       phone: 'participant.phone',
     };
 

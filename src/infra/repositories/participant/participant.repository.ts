@@ -7,6 +7,7 @@ import {
   Participant,
 } from '../../../common/interface/person.interface';
 
+export const PARTICIPANT_REPOSITORY = Symbol('PARTICIPANT_REPOSITORY');
 export interface ParticipantRepository {
   /**
    *
