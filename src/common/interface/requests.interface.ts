@@ -24,3 +24,8 @@ export interface AppResponse<T> {
     statusCode?: number;
   };
 }
+
+export interface PaginatedRequest {
+  pageIndex: number;
+  pageSize: number;
+}

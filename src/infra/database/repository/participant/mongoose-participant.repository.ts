@@ -1,5 +1,8 @@
 import { ParticipantRepository } from '../../../repositories/participant/participant.repository';
-import { Participant } from '../../../../common/interface/person.interface';
+import {
+  Filter,
+  Participant,
+} from '../../../../common/interface/person.interface';
 import {
   ListResponse,
   Paginated,
@@ -7,14 +10,46 @@ import {
 import { ParticipantModel } from '../../schema/participant/participant.schema';
 
 export class MongooseParticipantRepository implements ParticipantRepository {
-  getAllParticipantPaginatedPerFilter(
-    filter: any,
+  async getAllParticipantPaginatedPerFilter(
+    filter: Filter,
   ): Promise<Paginated<Participant>> {
-    return Promise.resolve(undefined);
+    try {
+      const filterBuilt = this.buildFilter(filter);
+
+      const participants = (await ParticipantModel.find(
+        filterBuilt,
+      )) as Participant[];
+
+      const participantsCounter = await ParticipantModel.countDocuments({});
+
+      return {
+        items: participants,
+        currentPage: filter.pageIndex,
+        itemsPerPage: filter.pageSize,
+        totalCount: participantsCounter,
+        totalPages: 0,
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  getAllParticipants(filter: any): Promise<ListResponse<Participant>> {
-    return Promise.resolve(undefined);
+  async getAllParticipants(
+    filter: Omit<Filter, 'pageSize' | 'pageIndex'>,
+  ): Promise<ListResponse<Participant>> {
+    try {
+      const filterBuilt = this.buildFilter(filter);
+
+      const participants = (await ParticipantModel.find(
+        filterBuilt,
+      )) as Participant[];
+
+      return {
+        items: participants,
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async getParticipantById(
@@ -49,5 +84,16 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  private buildFilter(
+    filter: Omit<Filter, 'pageSize' | 'pageIndex'>,
+  ): Omit<Filter, 'pageSize' | 'pageIndex'> {
+    const newFilter: any = {};
+
+    if ('word' in filter) {
+    }
+
+    return;
   }
 }

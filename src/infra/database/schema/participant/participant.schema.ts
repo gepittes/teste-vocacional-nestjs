@@ -17,26 +17,26 @@ export const ParticipantSchema = new mongoose.Schema<Participant>({
     type: String,
     default: TypeUser.PARTICIPANT,
   },
-  city: {
-    type: String,
-    required: true,
-  },
+  // city: {
+  //   type: String,
+  //   required: true,
+  // },
   phone: {
     type: String,
     required: true,
   },
-  scholarship: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  university: {
-    type: String,
-    required: true,
-  },
+  // scholarship: {
+  //   type: String,
+  //   required: true,
+  // },
+  // state: {
+  //   type: String,
+  //   required: true,
+  // },
+  // university: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 export const ParticipantModel: mongoose.Model<Participant> = mongoose.model(

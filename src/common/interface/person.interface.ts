@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import { PaginatedRequest } from './requests.interface';
 
 export interface UserCommon {
   _id: ObjectId;
@@ -13,13 +14,26 @@ export interface User extends UserCommon {
 
 export interface Participant extends UserCommon {
   phone: string;
-  state: string;
-  city: string;
-  scholarship: string;
-  university: string;
+  /* @TODO: check is necessary this information */
+  // state: string;
+  // city: string;
+  // scholarship: string;
+  // university: string;
 }
 
 export enum TypeUser {
-  ADM_USER = 'adm_user',
+  ADM_USER = 'adm',
   PARTICIPANT = 'participant',
+}
+
+export interface Filter extends PaginatedRequest {
+  word?: string;
+
+  typeUser?: TypeUser;
+
+  /* @TODO:@ case participant information is necessary implements rest filter  */
+  // state?: string;
+  // city?: string;
+  // scholarship?: string;
+  // university?: string;
 }

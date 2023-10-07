@@ -29,13 +29,9 @@ describe(`${MongooseParticipantRepository.name}`, () => {
 
   it('should be register a participant', async () => {
     const participant: Omit<Participant, '_id'> = {
-      city: 'participant.city',
       email: 'participant.email',
-      nome: 'participant.nome',
+      nome: 'participant.name',
       phone: 'participant.phone',
-      scholarship: 'participant.scholarship',
-      state: 'participant.state',
-      university: 'participant.university',
     };
 
     const {
@@ -47,13 +43,9 @@ describe(`${MongooseParticipantRepository.name}`, () => {
 
   it('should be get a participant by id', async () => {
     const participant: Omit<Participant, '_id'> = {
-      city: 'participant.city',
       email: 'participant.email',
-      nome: 'participant.nome',
+      nome: 'participant.name',
       phone: 'participant.phone',
-      scholarship: 'participant.scholarship',
-      state: 'participant.state',
-      university: 'participant.university',
     };
 
     const {

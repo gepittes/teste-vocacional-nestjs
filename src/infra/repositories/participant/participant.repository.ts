@@ -2,7 +2,10 @@ import {
   ListResponse,
   Paginated,
 } from '../../../common/interface/requests.interface';
-import { Participant } from '../../../common/interface/person.interface';
+import {
+  Filter,
+  Participant,
+} from '../../../common/interface/person.interface';
 
 export interface ParticipantRepository {
   /**
@@ -15,14 +18,16 @@ export interface ParticipantRepository {
    *
    * @param filter
    */
-  getAllParticipants(filter: any): Promise<ListResponse<Participant>>;
+  getAllParticipants(
+    filter: Omit<Filter, 'pageSize' | 'pageIndex'>,
+  ): Promise<ListResponse<Participant>>;
 
   /**
    *
    * @param filter
    */
   getAllParticipantPaginatedPerFilter(
-    filter: any,
+    filter: Filter,
   ): Promise<Paginated<Participant>>;
 
   /**
