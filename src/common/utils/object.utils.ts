@@ -1,3 +1,5 @@
+import { clearString } from './string.utils';
+
 /**
  * Check if any property by object is invalid
  * - PASS ONLY OBJECT
@@ -55,4 +57,27 @@ export const validateObject = <TypeObject>(object: TypeObject) => {
       }
     }
   }
+};
+
+/**
+ * @description Remove undefined, null and empty values by object
+ * - When value is string remove unnecessary white spaces
+ * @param object
+ */
+export const dataProcessing = <TypeObject>(object: TypeObject): TypeObject => {
+  return Object.keys(object)
+    .filter((key) => {
+      const valor = (object as any)[key];
+      return valor !== undefined && valor !== null && valor !== '';
+    })
+    .map((key) => {
+      if (typeof (object as any)[key] === 'string') {
+        (object as any)[key] = clearString((object as any)[key]);
+      }
+      return key;
+    })
+    .reduce((newObj, key) => {
+      (newObj as any)[key] = (object as any)[key];
+      return newObj;
+    }, {}) as TypeObject;
 };
