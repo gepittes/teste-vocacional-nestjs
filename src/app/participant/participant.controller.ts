@@ -1,18 +1,10 @@
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { RegisterParticipantDto } from './dto/register-participant.dto';
 import { ParticipantService } from './participant.service';
 import { Request, Response } from 'express';
 import { ResponseUtils } from '../../infra/reponseUtils/response.utils';
+import { dataProcessing } from '../../common/utils/object.utils';
 
 @ApiTags('Participants')
 @Controller('participants')
@@ -27,27 +19,25 @@ export class ParticipantController {
 
       return ResponseUtils.successResponse(req, res, response);
     } catch (error) {
-      return ResponseUtils.errorResponse(res, 404, 'Not found');
+      return ResponseUtils.errorResponse(res, 404, error.message);
     }
   }
 
-  @Get(':participantId')
-  @ApiOperation({ summary: 'Return participant by id' })
-  getParticipantById(@Param('participantId') participantId: string) {}
-
-  @Get('')
-  @ApiOperation({ summary: 'Return all participants per filter' })
-  getAllParticipantPerFilter() {}
-
-  @Get('')
-  @ApiOperation({ summary: 'Return all participants paginated per filter' })
-  getAllParticipantPaginatedPerFilter() {}
-
   @Post()
   @ApiOperation({ summary: 'Create a new participant' })
-  registerParticipant(@Body() participantDto: RegisterParticipantDto) {}
+  async registerParticipant(
+    @Res() res: Response,
+    @Req() req: Request,
+    @Body() participantDto: RegisterParticipantDto,
+  ) {
+    try {
+      const response = await this.participantService.registerParticipant(
+        dataProcessing(participantDto),
+      );
 
-  @Patch()
-  @ApiOperation({ summary: 'Update some information by participant' })
-  patchSomeDataParticipant() {}
+      return ResponseUtils.successResponse(req, res, response);
+    } catch (error) {
+      return ResponseUtils.errorResponse(res, 500, error.message);
+    }
+  }
 }

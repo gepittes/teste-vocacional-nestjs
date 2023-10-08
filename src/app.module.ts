@@ -3,11 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './app/user/user.module';
 import { MongoConnectionService } from './infra/database/services/database.connection.service';
-import { ResponseMiddleware } from './infra/middleware/response.middleware';
 import { ParticipantModule } from './app/participant/participant.module';
+import { QuestionModule } from './app/question/question.module';
+import { ResponseQuestionModule } from './app/response-question/response-question.module';
+import { SessionModule } from './app/session/session.module';
 
 @Module({
-  imports: [UserModule, ParticipantModule],
+  imports: [
+    UserModule,
+    ParticipantModule,
+    QuestionModule,
+    ResponseQuestionModule,
+    SessionModule,
+  ],
   controllers: [AppController],
   providers: [AppService, MongoConnectionService],
 })
@@ -22,6 +30,6 @@ export class AppModule implements NestModule {
   }
 
   async onModuleInit() {
-    // this.mongoConnectionService.connect();
+    await this.mongoConnectionService.connect();
   }
 }

@@ -40,9 +40,7 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     try {
       const filterBuilt = this.buildFilter(filter);
 
-      const participants = (await ParticipantModel.find(
-        filterBuilt,
-      )) as Participant[];
+      const participants = await ParticipantModel.find().lean();
 
       return {
         items: participants,
@@ -68,19 +66,13 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     }
   }
 
-  patchSomeDataParticipant(participant: Partial<Participant>): Promise<void> {
-    return Promise.resolve(undefined);
-  }
-
   async registerParticipant(
     participant: Omit<Participant, '_id'>,
   ): Promise<ListResponse<Participant>> {
     try {
-      const createdParticipant = (await ParticipantModel.create(
-        participant,
-      )) as Participant;
+      const createdParticipant = await ParticipantModel.create(participant);
 
-      return Promise.resolve({ items: [createdParticipant] });
+      return { items: [createdParticipant] };
     } catch (error) {
       throw new Error(error);
     }

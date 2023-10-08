@@ -1,7 +1,4 @@
-import {
-  ListResponse,
-  Paginated,
-} from '../../../common/interface/requests.interface';
+import { ListResponse } from '../../../common/interface/requests.interface';
 import {
   Filter,
   Participant,
@@ -25,23 +22,9 @@ export interface ParticipantRepository {
 
   /**
    *
-   * @param filter
-   */
-  getAllParticipantPaginatedPerFilter(
-    filter: Filter,
-  ): Promise<Paginated<Participant>>;
-
-  /**
-   *
    * @param participant
    */
   registerParticipant(
     participant: Omit<Participant, '_id'>,
   ): Promise<ListResponse<Participant>>;
-
-  /**
-   *
-   * @param participant
-   */
-  patchSomeDataParticipant(participant: Partial<Participant>): Promise<void>;
 }

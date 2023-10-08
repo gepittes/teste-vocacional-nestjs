@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Participant } from '../../common/interface/person.interface';
+import {
+  Participant,
+  ParticipantSession,
+} from '../../common/interface/person.interface';
 import {
   ListResponse,
   Paginated,
@@ -9,12 +12,14 @@ import {
   ParticipantRepository,
 } from '../../infra/repositories/participant/participant.repository';
 import { validateObject } from '../../common/utils/object.utils';
+import { SessionService } from '../session/services/session.service';
 
 @Injectable()
 export class ParticipantService {
   constructor(
     @Inject(PARTICIPANT_REPOSITORY)
     private participantRepository: ParticipantRepository,
+    private sessionService: SessionService,
   ) {}
 
   async getParticipantById(
@@ -29,9 +34,7 @@ export class ParticipantService {
   }
 
   async getAllParticipants(): Promise<ListResponse<Participant>> {
-    return {
-      items: [],
-    };
+    return await this.participantRepository.getAllParticipants({});
   }
 
   async getAllParticipantPaginatedPerFilter(
@@ -48,10 +51,19 @@ export class ParticipantService {
 
   async registerParticipant(
     participant: Omit<Participant, '_id' | 'typeUser'>,
-  ): Promise<ListResponse<Participant>> {
+  ): Promise<ListResponse<ParticipantSession>> {
     try {
       validateObject(participant);
-      return this.participantRepository.registerParticipant(participant);
+      const listSession = await this.sessionService.registerSession(
+        participant.email,
+      );
+
+      const listParticipant =
+        await this.participantRepository.registerParticipant(participant);
+
+      return {
+        items: [{ ...listParticipant.items[0], ...listSession.items[0] }],
+      };
     } catch (error) {
       throw new Error(error);
     }

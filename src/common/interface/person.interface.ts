@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { PaginatedRequest } from './requests.interface';
+import { Session } from '../../app/session/interfaces/session.interface';
 
 export interface UserCommon {
   _id: ObjectId;
@@ -20,6 +21,8 @@ export interface Participant extends UserCommon {
   // scholarship: string;
   // university: string;
 }
+
+export interface ParticipantSession extends Participant, Session {}
 
 export enum TypeUser {
   ADM_USER = 'adm',
