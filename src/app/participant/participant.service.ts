@@ -61,8 +61,12 @@ export class ParticipantService {
       const listParticipant =
         await this.participantRepository.registerParticipant(participant);
 
+      const ts = { ...listParticipant.items[0], ...listSession.items[0] };
+
+      console.log({ ...listSession.items[0] });
+
       return {
-        items: [{ ...listParticipant.items[0], ...listSession.items[0] }],
+        items: [ts],
       };
     } catch (error) {
       throw new Error(error);

@@ -8,16 +8,18 @@ export class MongooseSessionRepository implements SessionRepository {
   async checkUserHasSession(
     email: UserCommon['email'],
   ): Promise<ListResponse<Session>> {
-    const session = await SessionModel.findOne({
+    let session: any = await SessionModel.findOne({
       email,
       finishSession: { $exists: false },
     });
+
+    session = JSON.parse(JSON.stringify(session));
 
     return { items: [session] };
   }
 
   async finishSession(sessionHash: Session['sessionHash']): Promise<void> {
-    await SessionModel.findByIdAndUpdate(
+    await SessionModel.findOneAndUpdate(
       { sessionHash },
       { finishSession: new Date() },
     );
@@ -30,6 +32,6 @@ export class MongooseSessionRepository implements SessionRepository {
       email,
     });
 
-    return { items: [session] };
+    return { items: [JSON.parse(JSON.stringify(session))] };
   }
 }

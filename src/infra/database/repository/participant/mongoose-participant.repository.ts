@@ -70,7 +70,11 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     participant: Omit<Participant, '_id'>,
   ): Promise<ListResponse<Participant>> {
     try {
-      const createdParticipant = await ParticipantModel.create(participant);
+      let createdParticipant = (await ParticipantModel.create(
+        participant,
+      )) as Participant;
+
+      createdParticipant = JSON.parse(JSON.stringify(createdParticipant));
 
       return { items: [createdParticipant] };
     } catch (error) {
