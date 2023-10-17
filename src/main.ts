@@ -7,7 +7,7 @@ import { NestFactory } from '@nestjs/core';
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const configSwagger = new DocumentBuilder()
     .setTitle('Teste vocacional')
     .setDescription(

@@ -40,7 +40,7 @@ export class QuestionService {
 
   getQuestionsByGroup(group: Group): Promise<ListResponse<Question>> {
     const { questions } = allQuestions.find(
-      (questions) => (questions.group = group),
+      (question) => question.group === group,
     );
 
     return Promise.resolve({ items: questions });
