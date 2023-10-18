@@ -27,6 +27,22 @@ export class ResponseQuestionController {
     }
   }
 
+  @Get('responses/session/:sessionHash/final-result')
+  @ApiOperation({})
+  async calculateResponse(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('sessionHash') sessionHash: string,
+  ) {
+    try {
+      const response = await this.service.calculateResponse(sessionHash);
+
+      return ResponseUtils.successResponse(req, res, response);
+    } catch (error) {
+      return ResponseUtils.errorResponse(res, 404, error.message);
+    }
+  }
+
   @Post('register')
   @ApiOperation({ summary: 'Register a new Response' })
   async registerResponse(
