@@ -49,7 +49,11 @@ export class ResponseQuestionService {
 
       if (founded.questionGroup === response.questionGroup) return;
 
-      return this.repository.registerResponse(response);
+      const registred = await this.repository.registerResponse(response);
+
+      console.log(JSON.stringify(registred));
+
+      return registred;
     } catch (error) {
       throw new Error(error.message);
     }
