@@ -92,6 +92,6 @@ export class ResponseQuestionService {
 
     await this.sessionService.finishSession(sessionHash);
 
-    return { items: [] };
+    return { items: [final] };
   }
 }
