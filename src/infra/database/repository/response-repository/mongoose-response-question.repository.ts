@@ -2,6 +2,8 @@ import { ResponseQuestionRepository } from '../../../repositories/response-quest
 import { ResponseQuestions } from '../../../../app/response-question/interfaces/response-questions.interface';
 import { ListResponse } from '../../../../common/interface/requests.interface';
 import { ResponseQuestionModel } from '../../schema/response-question/response-question.schema';
+import { Session } from '../../../../app/session/interfaces/session.interface';
+import { Group } from '../../../../app/question/interfaces/question.interface';
 
 export class MongooseResponseQuestionRepository
   implements ResponseQuestionRepository
@@ -36,5 +38,17 @@ export class MongooseResponseQuestionRepository
     const created = await ResponseQuestionModel.create(response);
 
     return { items: [created] };
+  }
+
+  async getResponseBySessionHashAndGroup(
+    sessionHash: Session['sessionHash'],
+    group: Group,
+  ): Promise<ResponseQuestions[]> {
+    const responses = await ResponseQuestionModel.find({
+      sessionHash,
+      group,
+    });
+
+    return responses.map((response) => JSON.parse(JSON.stringify(response)));
   }
 }

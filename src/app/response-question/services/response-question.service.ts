@@ -37,6 +37,13 @@ export class ResponseQuestionService {
     try {
       validateObject(response);
 
+      const [founded] = await this.repository.getResponseBySessionHashAndGroup(
+        response.sessionHash,
+        response.group,
+      );
+
+      if (founded) return;
+
       return this.repository.registerResponse(response);
     } catch (error) {
       throw new Error(error.message);
@@ -51,21 +58,31 @@ export class ResponseQuestionService {
     const final: ResponseFinal = {};
 
     Object.keys(Group).forEach((key) => {
-      const counterResponse = items.filter(
-        (response) =>
-          response.response !== TypeResponse.WITHOUT_RESPONSE &&
-          response.group === Group[key],
-      ).length;
+      let counterResponse = items
+        .filter(
+          (response) => response.response !== TypeResponse.WITHOUT_RESPONSE,
+        )
+        .filter((response) => response.group === Group[key]);
+
+      const uniqueQuestionGroups = [];
+
+      counterResponse = counterResponse.filter((item) => {
+        if (!uniqueQuestionGroups.includes(item.questionGroup)) {
+          uniqueQuestionGroups.push(item.questionGroup);
+          return true;
+        }
+        return false;
+      });
 
       const keyObject = Group[key];
 
       final[keyObject] = {
-        counterResponse,
+        counterResponse: counterResponse.length,
       };
     });
 
     await this.sessionService.finishSession(sessionHash);
 
-    return { items: [final] };
+    return { items: [] };
   }
 }
