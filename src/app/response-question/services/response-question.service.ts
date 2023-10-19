@@ -42,7 +42,7 @@ export class ResponseQuestionService {
         response.group,
       );
 
-      if (founded) return;
+      if (founded.questionGroup === response.questionGroup) return;
 
       return this.repository.registerResponse(response);
     } catch (error) {
