@@ -63,8 +63,6 @@ export class ParticipantService {
 
       const ts = { ...listParticipant.items[0], ...listSession.items[0] };
 
-      console.log({ ...listSession.items[0] });
-
       return {
         items: [ts],
       };

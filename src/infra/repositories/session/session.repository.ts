@@ -23,4 +23,6 @@ export interface SessionRepository {
    * @param sessionHash
    */
   finishSession(sessionHash: Session['sessionHash']): Promise<void>;
+
+  checkSessionExists(sessionHash: Session['sessionHash']): Promise<Session>;
 }
