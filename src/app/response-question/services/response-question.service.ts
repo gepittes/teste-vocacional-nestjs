@@ -47,7 +47,7 @@ export class ResponseQuestionService {
         response,
       });
 
-      if (founded.questionGroup === response.questionGroup) return;
+      if (founded && founded.questionGroup === response.questionGroup) return;
 
       const registred = await this.repository.registerResponse(response);
 
