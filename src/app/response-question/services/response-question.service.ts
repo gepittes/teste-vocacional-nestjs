@@ -42,6 +42,11 @@ export class ResponseQuestionService {
         response.group,
       );
 
+      console.log({
+        founded,
+        response,
+      });
+
       if (founded.questionGroup === response.questionGroup) return;
 
       return this.repository.registerResponse(response);
