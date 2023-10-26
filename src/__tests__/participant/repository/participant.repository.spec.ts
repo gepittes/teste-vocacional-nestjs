@@ -52,7 +52,7 @@ describe(`${MongooseParticipantRepository.name}`, () => {
 
     const searchedResponse =
       await mongooseParticipantRepository.getParticipantById(
-        String(createdParticipant._id),
+        createdParticipant._id,
       );
 
     expect(createdParticipant._id).toStrictEqual(searchedResponse._id);

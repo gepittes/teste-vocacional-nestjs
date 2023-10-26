@@ -46,7 +46,9 @@ export class MongooseParticipantRepository implements ParticipantRepository {
     }
   }
 
-  async getParticipantById(participantId: string): Promise<Participant> {
+  async getParticipantById(
+    participantId: Participant['_id'],
+  ): Promise<Participant> {
     try {
       const participant = await ParticipantModel.findById(participantId);
 

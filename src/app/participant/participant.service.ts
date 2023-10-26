@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   Participant,
   ParticipantSession,
@@ -9,28 +9,49 @@ import {
 } from '../../infra/repositories/participant/participant.repository';
 import { validateObject } from '../../common/utils/object.utils';
 import { SessionService } from '../session/services/session.service';
+import { ParticipantServiceLogger } from './logger/participant-service.logger';
 
 @Injectable()
 export class ParticipantService {
-  private logger = new Logger(ParticipantService.name);
-
   constructor(
     @Inject(PARTICIPANT_REPOSITORY)
     private participantRepository: ParticipantRepository,
     private sessionService: SessionService,
+    private serviceLogger: ParticipantServiceLogger,
   ) {}
 
-  async getParticipantById(participantId: string): Promise<Participant> {
+  async getParticipantById(
+    participantId: Participant['_id'],
+  ): Promise<Participant> {
     try {
       validateObject({ participantId });
-      return await this.participantRepository.getParticipantById(participantId);
+      const participant = await this.participantRepository.getParticipantById(
+        participantId,
+      );
+
+      this.serviceLogger.participantRequest(participantId);
+
+      return participant;
     } catch (error) {
+      this.serviceLogger.generalError(error.message);
       throw new Error(error.message);
     }
   }
 
   async getAllParticipants(): Promise<Participant[]> {
-    return await this.participantRepository.getAllParticipants({});
+    try {
+      const participants = await this.participantRepository.getAllParticipants(
+        {},
+      );
+
+      this.serviceLogger.getAllParticipants(participants);
+
+      return participants;
+    } catch (error) {
+      this.serviceLogger.generalError(error.message);
+
+      throw new Error(error.message);
+    }
   }
 
   async registerParticipant(
@@ -45,8 +66,17 @@ export class ParticipantService {
       const newParticipant =
         await this.participantRepository.registerParticipant(participant);
 
-      return { ...newParticipant, ...session };
+      const participantSession: ParticipantSession = {
+        ...newParticipant,
+        ...session,
+      };
+
+      this.serviceLogger.registerParticipant(participantSession);
+
+      return participantSession;
     } catch (error) {
+      this.serviceLogger.generalError(error.message);
+
       throw new Error(error);
     }
   }

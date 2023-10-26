@@ -1,9 +1,11 @@
 import { MongoClient } from 'mongodb';
 import * as process from 'process';
 import mongoose from 'mongoose';
+import { Logger } from '@nestjs/common';
 
 export class MongoConnectionService {
   private mongoClient: MongoClient;
+  private logger = new Logger(MongoConnectionService.name);
 
   async connect(): Promise<void> {
     try {
@@ -14,9 +16,11 @@ export class MongoConnectionService {
       //   process.env.MONGO_CONNECTION,
       // );
 
-      console.log(`Connected to mongodb ${process.env.MONGO_CONNECTION}`);
+      this.logger.log(`Connected to mongodb ${process.env.MONGO_CONNECTION}`);
     } catch {
-      throw new Error(`Failed connecting to database`);
+      this.logger.error(
+        `Failed connecting to database ${process.env.MONGO_CONNECTION}`,
+      );
     }
   }
 }

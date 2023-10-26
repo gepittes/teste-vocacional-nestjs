@@ -9,7 +9,7 @@ export interface ParticipantRepository {
    *
    * @param participantId
    */
-  getParticipantById(participantId: string): Promise<Participant>;
+  getParticipantById(participantId: Participant['_id']): Promise<Participant>;
 
   /**
    *

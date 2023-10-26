@@ -1,22 +1,18 @@
 import { SessionRepository } from '../../../repositories/session/session.repository';
 import { UserCommon } from '../../../../common/interface/person.interface';
-import { ListResponse } from '../../../../common/interface/requests.interface';
 import { Session } from '../../../../app/session/interfaces/session.interface';
 import { SessionModel } from '../../schema/session/session.schema';
 import { base64 } from '../../../../common/utils/hash.util';
+import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 
 export class MongooseSessionRepository implements SessionRepository {
-  async checkUserHasSession(
-    email: UserCommon['email'],
-  ): Promise<ListResponse<Session>> {
-    let session: any = await SessionModel.findOne({
+  async checkUserHasSession(email: UserCommon['email']): Promise<Session> {
+    const session = await SessionModel.findOne({
       email,
       finishSession: { $exists: false },
     });
 
-    session = JSON.parse(JSON.stringify(session));
-
-    return { items: [session] };
+    return convertToJson<Session>(session);
   }
 
   async finishSession(sessionHash: Session['sessionHash']): Promise<void> {
@@ -26,9 +22,7 @@ export class MongooseSessionRepository implements SessionRepository {
     );
   }
 
-  async registerSession(
-    email: UserCommon['email'],
-  ): Promise<ListResponse<Session>> {
+  async registerSession(email: UserCommon['email']): Promise<Session> {
     const check = async (): Promise<string> => {
       const sessionHash = base64();
 
@@ -46,9 +40,7 @@ export class MongooseSessionRepository implements SessionRepository {
       sessionHash,
     });
 
-    console.log({ session });
-
-    return { items: [JSON.parse(JSON.stringify(session))] };
+    return convertToJson<Session>(session);
   }
 
   async checkSessionExists(
@@ -56,6 +48,6 @@ export class MongooseSessionRepository implements SessionRepository {
   ): Promise<Session> {
     const session = await SessionModel.findOne({ sessionHash });
 
-    return JSON.parse(JSON.stringify(session));
+    return convertToJson<Session>(session);
   }
 }

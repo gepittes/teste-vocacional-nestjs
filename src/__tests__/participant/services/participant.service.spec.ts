@@ -4,12 +4,16 @@ import { Participant } from '../../../common/interface/person.interface';
 import { SessionService } from '../../../app/session/services/session.service';
 import { Session } from '../../../app/session/interfaces/session.interface';
 import { base64 } from '../../../common/utils/hash.util';
+import { ParticipantServiceLogger } from '../../../app/participant/logger/participant-service.logger';
+import { ObjectId } from 'mongodb';
 import Mocked = jest.Mocked;
 
 describe(`${ParticipantService.name}`, () => {
   let service: ParticipantService;
 
   let sessionService: Mocked<Partial<SessionService>>;
+
+  let participantServiceLogger: Mocked<Partial<ParticipantServiceLogger>>;
 
   let participantRepositoryMock: Mocked<Partial<ParticipantRepository>>;
 
@@ -24,10 +28,19 @@ describe(`${ParticipantService.name}`, () => {
       registerSession: jest.fn(),
     };
 
+    participantServiceLogger = {
+      getAllParticipants: jest.fn(),
+      generalError: jest.fn(),
+      registerParticipant: jest.fn(),
+      participantRequest: jest.fn(),
+    };
+
     service = new ParticipantService(
       participantRepositoryMock as ParticipantRepository,
       /* @TODO: check how change any to sessionService */
       sessionService as any,
+      /* @TODO: check how change any to participantServiceLogger */
+      participantServiceLogger as any,
     );
   });
 
@@ -36,17 +49,19 @@ describe(`${ParticipantService.name}`, () => {
   });
 
   it('should be call with success get participant by id', async () => {
-    await service.getParticipantById('participantId');
+    const participantId = new ObjectId();
+
+    await service.getParticipantById(participantId);
 
     expect(participantRepositoryMock.getParticipantById).toBeCalledTimes(1);
 
     expect(participantRepositoryMock.getParticipantById).toBeCalledWith(
-      'participantId',
+      participantId,
     );
   });
 
   it('should be call with fail when try get participant by id with invalid data', async () => {
-    await expect(service.getParticipantById('')).rejects.toThrowError(
+    await expect(service.getParticipantById('' as any)).rejects.toThrowError(
       'participantId is a required and cannot be empty',
     );
   });
