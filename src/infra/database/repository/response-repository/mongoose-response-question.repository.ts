@@ -1,9 +1,9 @@
 import { ResponseQuestionRepository } from '../../../repositories/response-question/response-question.repository';
 import { ResponseQuestions } from '../../../../app/response-question/interfaces/response-questions.interface';
-import { ListResponse } from '../../../../common/interface/requests.interface';
 import { ResponseQuestionModel } from '../../schema/response-question/response-question.schema';
 import { Session } from '../../../../app/session/interfaces/session.interface';
 import { Group } from '../../../../app/question/interfaces/question.interface';
+import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 
 export class MongooseResponseQuestionRepository
   implements ResponseQuestionRepository
@@ -13,17 +13,13 @@ export class MongooseResponseQuestionRepository
    */
   async getResponsesBySession(
     sessionHash: string,
-  ): Promise<ListResponse<ResponseQuestions>> {
+  ): Promise<ResponseQuestions[]> {
     try {
-      const responsesQuestions = await ResponseQuestionModel.find({
+      const responses = await ResponseQuestionModel.find({
         sessionHash,
-      })
-        .select({ __v: 0 })
-        .lean();
+      }).select({ __v: 0 });
 
-      return {
-        items: responsesQuestions,
-      };
+      return convertToJson<ResponseQuestions[]>(responses);
     } catch (error) {
       throw new Error(error);
     }
@@ -34,10 +30,10 @@ export class MongooseResponseQuestionRepository
    */
   async registerResponse(
     response: Omit<ResponseQuestions, '_id'>,
-  ): Promise<ListResponse<ResponseQuestions>> {
-    const created = await ResponseQuestionModel.create(response);
+  ): Promise<ResponseQuestions> {
+    const responseCreated = await ResponseQuestionModel.create(response);
 
-    return { items: [created] };
+    return convertToJson<ResponseQuestions>(responseCreated);
   }
 
   async getResponseBySessionHashAndGroup(
@@ -49,6 +45,6 @@ export class MongooseResponseQuestionRepository
       group,
     });
 
-    return responses.map((response) => JSON.parse(JSON.stringify(response)));
+    return convertToJson<ResponseQuestions[]>(responses);
   }
 }

@@ -5,6 +5,7 @@ import {
   Group,
   TypeResponse,
 } from '../../../app/question/interfaces/question.interface';
+import { base64 } from '../../../common/utils/hash.util';
 
 describe(`${MongooseResponseQuestionRepository.name}`, () => {
   let repository: MongooseResponseQuestionRepository;
@@ -39,15 +40,13 @@ describe(`${MongooseResponseQuestionRepository.name}`, () => {
       sessionHash: '123456789',
     };
 
-    const {
-      items: [created],
-    } = await repository.registerResponse(response);
+    const created = await repository.registerResponse(response);
 
     expect(created).toMatchObject(response);
   });
 
   it('should be return all responses by the same hash', async () => {
-    const sessionHash = '12345678900123456789';
+    const sessionHash = base64();
 
     const responsesToCreate: Omit<ResponseQuestions, '_id'>[] = [
       {
@@ -72,7 +71,7 @@ describe(`${MongooseResponseQuestionRepository.name}`, () => {
         group: Group.GROUP_III,
         questionGroup: 4,
         response: TypeResponse.WITHOUT_RESPONSE,
-        sessionHash: '13333344445556677888',
+        sessionHash: base64(),
       },
     ];
 
@@ -82,9 +81,11 @@ describe(`${MongooseResponseQuestionRepository.name}`, () => {
       }),
     );
 
-    const { items } = await repository.getResponsesBySession(sessionHash);
+    const responseQuestions = await repository.getResponsesBySession(
+      sessionHash,
+    );
 
-    items.forEach(({ _id, ...rest }) => {
+    responseQuestions.forEach(({ _id, ...rest }) => {
       expect(
         responsesToCreate.some((response) => response.group === rest.group),
       ).toBeTruthy();

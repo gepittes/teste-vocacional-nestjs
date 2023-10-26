@@ -34,9 +34,8 @@ describe(`${MongooseParticipantRepository.name}`, () => {
       phone: 'participant.phone',
     };
 
-    const {
-      items: [createdParticipant],
-    } = await mongooseParticipantRepository.registerParticipant(participant);
+    const createdParticipant =
+      await mongooseParticipantRepository.registerParticipant(participant);
 
     expect(createdParticipant).toHaveProperty('_id');
   });
@@ -48,17 +47,14 @@ describe(`${MongooseParticipantRepository.name}`, () => {
       phone: 'participant.phone',
     };
 
-    const {
-      items: [createdParticipant],
-    } = await mongooseParticipantRepository.registerParticipant(participant);
+    const createdParticipant =
+      await mongooseParticipantRepository.registerParticipant(participant);
 
     const searchedResponse =
       await mongooseParticipantRepository.getParticipantById(
         String(createdParticipant._id),
       );
 
-    const [searchedParticipant] = searchedResponse.items;
-
-    expect(createdParticipant._id).toStrictEqual(searchedParticipant._id);
+    expect(createdParticipant._id).toStrictEqual(searchedResponse._id);
   });
 });

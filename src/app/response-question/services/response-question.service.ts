@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   RESPONSE_QUESTION_REPOSITORY,
   ResponseQuestionRepository,
@@ -18,6 +18,8 @@ import { SessionService } from '../../session/services/session.service';
 
 @Injectable()
 export class ResponseQuestionService {
+  private logger = new Logger(ResponseQuestionService.name);
+
   constructor(
     @Inject(RESPONSE_QUESTION_REPOSITORY)
     private repository: ResponseQuestionRepository,
@@ -42,18 +44,9 @@ export class ResponseQuestionService {
         response.group,
       );
 
-      console.log({
-        founded,
-        response,
-      });
-
       if (founded && founded.questionGroup === response.questionGroup) return;
 
-      const registred = await this.repository.registerResponse(response);
-
-      console.log(JSON.stringify(registred));
-
-      return registred;
+      return await this.repository.registerResponse(response);
     } catch (error) {
       throw new Error(error.message);
     }
@@ -62,12 +55,12 @@ export class ResponseQuestionService {
   async calculateResponse(
     sessionHash: Session['sessionHash'],
   ): Promise<ListResponse<ResponseFinal>> {
-    const { items } = await this.repository.getResponsesBySession(sessionHash);
+    const responses = await this.repository.getResponsesBySession(sessionHash);
 
     const final: ResponseFinal = {};
 
     Object.keys(Group).forEach((key) => {
-      let counterResponse = items
+      let counterResponse = responses
         .filter(
           (response) => response.response !== TypeResponse.WITHOUT_RESPONSE,
         )

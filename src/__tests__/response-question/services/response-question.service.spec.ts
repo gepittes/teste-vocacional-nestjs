@@ -5,10 +5,15 @@ import {
   Group,
   TypeResponse,
 } from '../../../app/question/interfaces/question.interface';
+import { SessionService } from '../../../app/session/services/session.service';
+import { ObjectId } from 'mongodb';
+import { base64 } from '../../../common/utils/hash.util';
 import Mocked = jest.Mocked;
 
 describe(`${ResponseQuestionService.name}`, () => {
   let service: ResponseQuestionService;
+
+  let sessionServiceMock: Mocked<Partial<SessionService>>;
 
   let repository: Mocked<Partial<ResponseQuestionRepository>>;
 
@@ -16,11 +21,23 @@ describe(`${ResponseQuestionService.name}`, () => {
     repository = {
       getResponsesBySession: jest.fn(),
       registerResponse: jest.fn(),
+      getResponseBySessionHashAndGroup: jest.fn(),
+    };
+
+    sessionServiceMock = {
+      registerSession: jest.fn(),
+      finishSession: jest.fn(),
     };
 
     service = new ResponseQuestionService(
       repository as ResponseQuestionRepository,
+      /* @TODO: check how change any to sessionService */
+      sessionServiceMock as any,
     );
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined service', () => {
@@ -46,18 +63,55 @@ describe(`${ResponseQuestionService.name}`, () => {
   });
 
   it('should be return success when try register response', async () => {
+    const sessionHash = base64();
+
     const response: Omit<ResponseQuestions, '_id'> = {
       group: Group.GROUP_I,
       questionGroup: 1,
       response: TypeResponse.A,
-      sessionHash: '12341234',
+      sessionHash,
     };
+
+    const created: ResponseQuestions = {
+      _id: new ObjectId(),
+      group: Group.GROUP_II,
+      questionGroup: 2,
+      response: TypeResponse.WITHOUT_RESPONSE,
+      sessionHash,
+    };
+
+    repository.getResponseBySessionHashAndGroup.mockResolvedValue([created]);
 
     await service.registerResponse(response);
 
     expect(repository.registerResponse).toBeCalledTimes(1);
 
     expect(repository.registerResponse).toBeCalledWith(response);
+  });
+
+  it('should be not save question when the same question is saved previous', async () => {
+    const sessionHash = base64();
+
+    const response: Omit<ResponseQuestions, '_id'> = {
+      group: Group.GROUP_I,
+      questionGroup: 1,
+      response: TypeResponse.A,
+      sessionHash,
+    };
+
+    const created: ResponseQuestions = {
+      _id: new ObjectId(),
+      group: Group.GROUP_I,
+      questionGroup: 1,
+      response: TypeResponse.A,
+      sessionHash,
+    };
+
+    repository.getResponseBySessionHashAndGroup.mockResolvedValue([created]);
+
+    await service.registerResponse(response);
+
+    expect(repository.registerResponse).not.toBeCalled();
   });
 
   it('should be return fail when try register response with invalid data', async () => {

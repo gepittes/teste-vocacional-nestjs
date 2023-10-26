@@ -1,10 +1,15 @@
 import { ParticipantService } from '../../../app/participant/participant.service';
 import { ParticipantRepository } from '../../../infra/repositories/participant/participant.repository';
 import { Participant } from '../../../common/interface/person.interface';
+import { SessionService } from '../../../app/session/services/session.service';
+import { Session } from '../../../app/session/interfaces/session.interface';
+import { base64 } from '../../../common/utils/hash.util';
 import Mocked = jest.Mocked;
 
 describe(`${ParticipantService.name}`, () => {
   let service: ParticipantService;
+
+  let sessionService: Mocked<Partial<SessionService>>;
 
   let participantRepositoryMock: Mocked<Partial<ParticipantRepository>>;
 
@@ -14,8 +19,15 @@ describe(`${ParticipantService.name}`, () => {
       registerParticipant: jest.fn(),
     };
 
+    sessionService = {
+      finishSession: jest.fn(),
+      registerSession: jest.fn(),
+    };
+
     service = new ParticipantService(
       participantRepositoryMock as ParticipantRepository,
+      /* @TODO: check how change any to sessionService */
+      sessionService as any,
     );
   });
 
@@ -45,6 +57,15 @@ describe(`${ParticipantService.name}`, () => {
       name: 'participant.name',
       phone: 'participant.phone',
     };
+
+    const session: Session = {
+      email: 'participant.email',
+      finishSession: new Date(),
+      sessionHash: base64(),
+      startSession: new Date(),
+    };
+
+    sessionService.registerSession.mockResolvedValue(session);
 
     await service.registerParticipant(participant);
 

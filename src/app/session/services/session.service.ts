@@ -4,7 +4,6 @@ import {
   SessionRepository,
 } from '../../../infra/repositories/session/session.repository';
 import { UserCommon } from '../../../common/interface/person.interface';
-import { ListResponse } from '../../../common/interface/requests.interface';
 import { Session } from '../interfaces/session.interface';
 import { validateObject } from '../../../common/utils/object.utils';
 
@@ -13,12 +12,13 @@ export class SessionService {
   constructor(
     @Inject(SESSION_REPOSITORY) private repository: SessionRepository,
   ) {}
-  private checkUserHasSession(
+
+  private async checkUserHasSession(
     email: UserCommon['email'],
-  ): Promise<ListResponse<Session>> {
+  ): Promise<Session> {
     try {
       validateObject({ email });
-      return this.repository.checkUserHasSession(email);
+      return await this.repository.checkUserHasSession(email);
     } catch (error) {
       throw new Error(error.message);
     }
@@ -33,15 +33,11 @@ export class SessionService {
     }
   }
 
-  async registerSession(
-    email: UserCommon['email'],
-  ): Promise<ListResponse<Session>> {
+  async registerSession(email: UserCommon['email']): Promise<Session> {
     try {
       validateObject({ email });
 
-      const {
-        items: [existsSession],
-      } = await this.checkUserHasSession(email);
+      const existsSession = await this.checkUserHasSession(email);
 
       if (existsSession) {
         await this.finishSession(existsSession.sessionHash);

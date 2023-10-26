@@ -1,12 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   Participant,
   ParticipantSession,
 } from '../../common/interface/person.interface';
-import {
-  ListResponse,
-  Paginated,
-} from '../../common/interface/requests.interface';
 import {
   PARTICIPANT_REPOSITORY,
   ParticipantRepository,
@@ -16,62 +12,42 @@ import { SessionService } from '../session/services/session.service';
 
 @Injectable()
 export class ParticipantService {
+  private logger = new Logger(ParticipantService.name);
+
   constructor(
     @Inject(PARTICIPANT_REPOSITORY)
     private participantRepository: ParticipantRepository,
     private sessionService: SessionService,
   ) {}
 
-  async getParticipantById(
-    participantId: string,
-  ): Promise<ListResponse<Participant>> {
+  async getParticipantById(participantId: string): Promise<Participant> {
     try {
       validateObject({ participantId });
-      return this.participantRepository.getParticipantById(participantId);
+      return await this.participantRepository.getParticipantById(participantId);
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  async getAllParticipants(): Promise<ListResponse<Participant>> {
+  async getAllParticipants(): Promise<Participant[]> {
     return await this.participantRepository.getAllParticipants({});
-  }
-
-  async getAllParticipantPaginatedPerFilter(
-    filter: any,
-  ): Promise<Paginated<Participant>> {
-    return {
-      items: [],
-      currentPage: 0,
-      itemsPerPage: 0,
-      totalCount: 0,
-      totalPages: 0,
-    };
   }
 
   async registerParticipant(
     participant: Omit<Participant, '_id' | 'typeUser'>,
-  ): Promise<ListResponse<ParticipantSession>> {
+  ): Promise<ParticipantSession> {
     try {
       validateObject(participant);
-      const listSession = await this.sessionService.registerSession(
+      const session = await this.sessionService.registerSession(
         participant.email,
       );
 
-      const listParticipant =
+      const newParticipant =
         await this.participantRepository.registerParticipant(participant);
 
-      const ts = { ...listParticipant.items[0], ...listSession.items[0] };
-
-      return {
-        items: [ts],
-      };
+      return { ...newParticipant, ...session };
     } catch (error) {
       throw new Error(error);
     }
-  }
-
-  async patchSomeDataParticipant(): Promise<void> {
-    return;
   }
 }

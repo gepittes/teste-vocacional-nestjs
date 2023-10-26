@@ -3,11 +3,9 @@ import {
   Filter,
   Participant,
 } from '../../../../common/interface/person.interface';
-import {
-  ListResponse,
-  Paginated,
-} from '../../../../common/interface/requests.interface';
+import { Paginated } from '../../../../common/interface/requests.interface';
 import { ParticipantModel } from '../../schema/participant/participant.schema';
+import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 
 export class MongooseParticipantRepository implements ParticipantRepository {
   async getAllParticipantPaginatedPerFilter(
@@ -36,31 +34,23 @@ export class MongooseParticipantRepository implements ParticipantRepository {
 
   async getAllParticipants(
     filter: Omit<Filter, 'pageSize' | 'pageIndex'>,
-  ): Promise<ListResponse<Participant>> {
+  ): Promise<Participant[]> {
     try {
       const filterBuilt = this.buildFilter(filter);
 
-      const participants = await ParticipantModel.find().lean();
+      const participants = await ParticipantModel.find();
 
-      return {
-        items: participants,
-      };
+      return convertToJson<Participant[]>(participants);
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getParticipantById(
-    participantId: string,
-  ): Promise<ListResponse<Participant>> {
+  async getParticipantById(participantId: string): Promise<Participant> {
     try {
-      const participant = (await ParticipantModel.findById(
-        participantId,
-      )) as Participant;
+      const participant = await ParticipantModel.findById(participantId);
 
-      return {
-        items: [participant],
-      };
+      return convertToJson<Participant>(participant);
     } catch (error) {
       throw new Error(error);
     }
@@ -68,15 +58,11 @@ export class MongooseParticipantRepository implements ParticipantRepository {
 
   async registerParticipant(
     participant: Omit<Participant, '_id'>,
-  ): Promise<ListResponse<Participant>> {
+  ): Promise<Participant> {
     try {
-      let createdParticipant = (await ParticipantModel.create(
-        participant,
-      )) as Participant;
+      const registeredParticipant = await ParticipantModel.create(participant);
 
-      createdParticipant = JSON.parse(JSON.stringify(createdParticipant));
-
-      return { items: [createdParticipant] };
+      return convertToJson<Participant>(registeredParticipant);
     } catch (error) {
       throw new Error(error);
     }

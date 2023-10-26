@@ -1,4 +1,3 @@
-import { ListResponse } from '../../../common/interface/requests.interface';
 import {
   Filter,
   Participant,
@@ -10,7 +9,7 @@ export interface ParticipantRepository {
    *
    * @param participantId
    */
-  getParticipantById(participantId: string): Promise<ListResponse<Participant>>;
+  getParticipantById(participantId: string): Promise<Participant>;
 
   /**
    *
@@ -18,7 +17,7 @@ export interface ParticipantRepository {
    */
   getAllParticipants(
     filter: Omit<Filter, 'pageSize' | 'pageIndex'>,
-  ): Promise<ListResponse<Participant>>;
+  ): Promise<Participant[]>;
 
   /**
    *
@@ -26,5 +25,5 @@ export interface ParticipantRepository {
    */
   registerParticipant(
     participant: Omit<Participant, '_id'>,
-  ): Promise<ListResponse<Participant>>;
+  ): Promise<Participant>;
 }
