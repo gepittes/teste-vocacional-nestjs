@@ -1,26 +1,23 @@
-import { MongoClient } from 'mongodb';
 import * as process from 'process';
 import mongoose from 'mongoose';
-import { Logger } from '@nestjs/common';
+import { DatabaseConnectionLogger } from '../logger/database-connection/database-connection.logger.';
 
 export class MongoConnectionService {
-  private mongoClient: MongoClient;
-  private logger = new Logger(MongoConnectionService.name);
+  private mongoUriEnvironment: string = process.env.MONGO_CONNECTION;
+
+  constructor(private logger: DatabaseConnectionLogger) {}
 
   async connect(): Promise<void> {
     try {
-      await mongoose.connect(process.env.MONGO_CONNECTION, {
+      mongoose.set('debug', true);
+
+      await mongoose.connect(this.mongoUriEnvironment, {
         maxPoolSize: 600,
       });
-      // this.mongoClient = await MongoClient.connect(
-      //   process.env.MONGO_CONNECTION,
-      // );
 
-      this.logger.log(`Connected to mongodb ${process.env.MONGO_CONNECTION}`);
+      this.logger.connected(this.mongoUriEnvironment);
     } catch {
-      this.logger.error(
-        `Failed connecting to database ${process.env.MONGO_CONNECTION}`,
-      );
+      this.logger.failConnect(this.mongoUriEnvironment);
     }
   }
 }
