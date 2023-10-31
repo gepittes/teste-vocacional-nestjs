@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   SESSION_REPOSITORY,
   SessionRepository,
-} from '../../../infra/repositories/session/session.repository';
-import { UserCommon } from '../../../common/interface/person.interface';
+} from '@/infra/repositories/session/session.repository';
+import { UserCommon } from '@/common/interface/person.interface';
 import { Session } from '../interfaces/session.interface';
-import { validateObject } from '../../../common/utils/object.utils';
+import { validateObject } from '@/common/utils/object.utils';
 
 @Injectable()
 export class SessionService {

@@ -1,5 +1,5 @@
-import { AppResponse } from '../../common/interface/requests.interface';
-import e, { Request, Response } from 'express';
+import { AppResponse } from '@/common/interface/requests.interface';
+import { Request, Response } from 'express';
 
 export class ResponseUtils {
   static successResponse<T>(

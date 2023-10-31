@@ -1,8 +1,5 @@
 import * as mongoose from 'mongoose';
-import {
-  Participant,
-  TypeUser,
-} from '../../../../common/interface/person.interface';
+import { Participant, TypeUser } from '@/common/interface/person.interface';
 
 export const ParticipantSchema = new mongoose.Schema<Participant>({
   name: {

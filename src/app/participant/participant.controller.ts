@@ -3,8 +3,8 @@ import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { RegisterParticipantDto } from './dto/register-participant.dto';
 import { ParticipantService } from './services/participant.service';
 import { Request, Response } from 'express';
-import { ResponseUtils } from '../../infra/reponseUtils/response.utils';
-import { dataProcessing } from '../../common/utils/object.utils';
+import { ResponseUtils } from '@/infra/reponseUtils/response.utils';
+import { dataProcessing } from '@/common/utils/object.utils';
 
 @ApiTags('Participants')
 @Controller('participants')

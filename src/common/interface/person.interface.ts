@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { PaginatedRequest } from './requests.interface';
-import { Session } from '../../app/session/interfaces/session.interface';
+import { Session } from '@/app/session/interfaces/session.interface';
 
 export interface UserCommon {
   _id: ObjectId;

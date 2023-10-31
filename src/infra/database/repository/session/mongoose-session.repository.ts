@@ -1,8 +1,8 @@
-import { SessionRepository } from '../../../repositories/session/session.repository';
-import { UserCommon } from '../../../../common/interface/person.interface';
-import { Session } from '../../../../app/session/interfaces/session.interface';
+import { SessionRepository } from '@/infra/repositories/session/session.repository';
+import { UserCommon } from '@/common/interface/person.interface';
+import { Session } from '@/app/session/interfaces/session.interface';
 import { SessionModel } from '../../schema/session/session.schema';
-import { base64 } from '../../../../common/utils/hash.util';
+import { base64 } from '@/common/utils/hash.util';
 import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 
 export class MongooseSessionRepository implements SessionRepository {

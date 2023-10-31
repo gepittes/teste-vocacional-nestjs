@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import {
   Participant,
   ParticipantSession,
-} from '../../../common/interface/person.interface';
+} from '@/common/interface/person.interface';
 
 export class ParticipantServiceLogger {
   private className: string = ParticipantService.name;

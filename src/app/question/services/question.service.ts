@@ -5,7 +5,7 @@ import {
   QuestionGroup,
   QuestionGroupOption,
 } from '../interfaces/question.interface';
-import { ListResponse } from '../../../common/interface/requests.interface';
+import { ListResponse } from '@/common/interface/requests.interface';
 import { allQuestions } from '../mock/questions.mock';
 
 @Injectable()

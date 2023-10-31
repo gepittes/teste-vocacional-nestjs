@@ -1,6 +1,6 @@
-import { MongooseParticipantRepository } from '../../../infra/database/repository/participant/mongoose-participant.repository';
-import { MongoInMemory } from '../../../infra/memory/mongo/mongo-in-memory.memory';
-import { Participant } from '../../../common/interface/person.interface';
+import { MongooseParticipantRepository } from '@/infra/database/repository/participant/mongoose-participant.repository';
+import { MongoInMemory } from '@/infra/memory/mongo/mongo-in-memory.memory';
+import { Participant } from '@/common/interface/person.interface';
 
 describe(`${MongooseParticipantRepository.name}`, () => {
   let mongooseParticipantRepository: MongooseParticipantRepository;

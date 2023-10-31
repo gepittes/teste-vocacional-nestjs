@@ -1,6 +1,6 @@
-import { ResponseQuestions } from '../../../app/response-question/interfaces/response-questions.interface';
-import { Session } from '../../../app/session/interfaces/session.interface';
-import { Group } from '../../../app/question/interfaces/question.interface';
+import { ResponseQuestions } from '@/app/response-question/interfaces/response-questions.interface';
+import { Session } from '@/app/session/interfaces/session.interface';
+import { Group } from '@/app/question/interfaces/question.interface';
 
 export const RESPONSE_QUESTION_REPOSITORY = Symbol(
   'RESPONSE_QUESTION_REPOSITORY',

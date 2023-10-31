@@ -1,10 +1,10 @@
-import { ParticipantServiceLogger } from '../../../app/participant/logger/participant-service.logger';
+import { ParticipantServiceLogger } from '@/app/participant/logger/participant-service.logger';
 import {
   Participant,
   ParticipantSession,
-} from '../../../common/interface/person.interface';
+} from '@/common/interface/person.interface';
 import { ObjectId } from 'mongodb';
-import { base64 } from '../../../common/utils/hash.util';
+import { base64 } from '@/common/utils/hash.util';
 import SpyInstance = jest.SpyInstance;
 
 describe(`${ParticipantServiceLogger.name}`, () => {

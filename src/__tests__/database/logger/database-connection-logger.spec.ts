@@ -1,4 +1,4 @@
-import { DatabaseConnectionLogger } from '../../../infra/database/logger/database-connection/database-connection.logger.';
+import { DatabaseConnectionLogger } from '@/infra/database/logger/database-connection/database-connection.logger.';
 import SpyInstance = jest.SpyInstance;
 
 describe(`${DatabaseConnectionLogger.name}`, () => {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { Session } from '../../../../app/session/interfaces/session.interface';
-import { base64 } from '../../../../common/utils/hash.util';
+import { Session } from '@/app/session/interfaces/session.interface';
+import { base64 } from '@/common/utils/hash.util';
 
 export const SessionSchema = new mongoose.Schema<Session>({
   email: {

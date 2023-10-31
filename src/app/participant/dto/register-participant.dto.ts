@@ -1,4 +1,4 @@
-import { Participant } from '../../../common/interface/person.interface';
+import { Participant } from '@/common/interface/person.interface';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterParticipantDto implements Omit<Participant, '_id'> {

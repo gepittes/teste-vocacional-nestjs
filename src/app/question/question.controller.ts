@@ -6,7 +6,7 @@ import {
   QuestionGroup,
   QuestionGroupOption,
 } from './interfaces/question.interface';
-import { ResponseUtils } from '../../infra/reponseUtils/response.utils';
+import { ResponseUtils } from '@/infra/reponseUtils/response.utils';
 import { Request, Response } from 'express';
 
 @ApiTags('Questions')

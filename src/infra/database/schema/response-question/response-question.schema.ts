@@ -2,8 +2,8 @@ import * as mongoose from 'mongoose';
 import {
   Group,
   TypeResponse,
-} from '../../../../app/question/interfaces/question.interface';
-import { ResponseQuestions } from '../../../../app/response-question/interfaces/response-questions.interface';
+} from '@/app/question/interfaces/question.interface';
+import { ResponseQuestions } from '@/app/response-question/interfaces/response-questions.interface';
 
 export const ResponseQuestionSchema = new mongoose.Schema<ResponseQuestions>({
   response: {

@@ -2,8 +2,8 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   RESPONSE_QUESTION_REPOSITORY,
   ResponseQuestionRepository,
-} from '../../../infra/repositories/response-question/response-question.repository';
-import { validateObject } from '../../../common/utils/object.utils';
+} from '@/infra/repositories/response-question/response-question.repository';
+import { validateObject } from '@/common/utils/object.utils';
 import {
   ResponseFinal,
   ResponseQuestions,
@@ -13,7 +13,7 @@ import {
   Group,
   TypeResponse,
 } from '../../question/interfaces/question.interface';
-import { ListResponse } from '../../../common/interface/requests.interface';
+import { ListResponse } from '@/common/interface/requests.interface';
 import { SessionService } from '../../session/services/session.service';
 
 @Injectable()

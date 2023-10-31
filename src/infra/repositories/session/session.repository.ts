@@ -1,5 +1,5 @@
-import { UserCommon } from '../../../common/interface/person.interface';
-import { Session } from '../../../app/session/interfaces/session.interface';
+import { UserCommon } from '@/common/interface/person.interface';
+import { Session } from '@/app/session/interfaces/session.interface';
 
 export const SESSION_REPOSITORY = Symbol('SESSION_REPOSITORY');
 

@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
-import { AppResponse } from '../../common/interface/requests.interface';
+import { AppResponse } from '@/common/interface/requests.interface';
 
 @Injectable()
 export class ResponseMiddleware implements NestMiddleware {

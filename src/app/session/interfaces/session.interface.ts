@@ -1,4 +1,4 @@
-import { UserCommon } from '../../../common/interface/person.interface';
+import { UserCommon } from '@/common/interface/person.interface';
 
 export interface Session {
   /**

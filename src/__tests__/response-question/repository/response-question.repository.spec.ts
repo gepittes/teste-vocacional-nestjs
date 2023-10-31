@@ -1,11 +1,11 @@
-import { MongooseResponseQuestionRepository } from '../../../infra/database/repository/response-repository/mongoose-response-question.repository';
-import { MongoInMemory } from '../../../infra/memory/mongo/mongo-in-memory.memory';
-import { ResponseQuestions } from '../../../app/response-question/interfaces/response-questions.interface';
+import { MongooseResponseQuestionRepository } from '@/infra/database/repository/response-repository/mongoose-response-question.repository';
+import { MongoInMemory } from '@/infra/memory/mongo/mongo-in-memory.memory';
+import { ResponseQuestions } from '@/app/response-question/interfaces/response-questions.interface';
 import {
   Group,
   TypeResponse,
-} from '../../../app/question/interfaces/question.interface';
-import { base64 } from '../../../common/utils/hash.util';
+} from '@/app/question/interfaces/question.interface';
+import { base64 } from '@/common/utils/hash.util';
 
 describe(`${MongooseResponseQuestionRepository.name}`, () => {
   let repository: MongooseResponseQuestionRepository;

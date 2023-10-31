@@ -1,8 +1,8 @@
-import { ResponseQuestionRepository } from '../../../repositories/response-question/response-question.repository';
-import { ResponseQuestions } from '../../../../app/response-question/interfaces/response-questions.interface';
+import { ResponseQuestionRepository } from '@/infra/repositories/response-question/response-question.repository';
+import { ResponseQuestions } from '@/app/response-question/interfaces/response-questions.interface';
 import { ResponseQuestionModel } from '../../schema/response-question/response-question.schema';
-import { Session } from '../../../../app/session/interfaces/session.interface';
-import { Group } from '../../../../app/question/interfaces/question.interface';
+import { Session } from '@/app/session/interfaces/session.interface';
+import { Group } from '@/app/question/interfaces/question.interface';
 import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 
 export class MongooseResponseQuestionRepository

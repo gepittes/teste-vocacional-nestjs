@@ -1,9 +1,6 @@
-import { ParticipantRepository } from '../../../repositories/participant/participant.repository';
-import {
-  Filter,
-  Participant,
-} from '../../../../common/interface/person.interface';
-import { Paginated } from '../../../../common/interface/requests.interface';
+import { ParticipantRepository } from '@/infra/repositories/participant/participant.repository';
+import { Filter, Participant } from '@/common/interface/person.interface';
+import { Paginated } from '@/common/interface/requests.interface';
 import { ParticipantModel } from '../../schema/participant/participant.schema';
 import { convertToJson } from '../../mongoose-utils/conervertToJson.util';
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MongooseSessionRepository } from '../../infra/database/repository/session/mongoose-session.repository';
-import { SESSION_REPOSITORY } from '../../infra/repositories/session/session.repository';
+import { MongooseSessionRepository } from '@/infra/database/repository/session/mongoose-session.repository';
+import { SESSION_REPOSITORY } from '@/infra/repositories/session/session.repository';
 import { SessionService } from './services/session.service';
 
 @Module({

@@ -2,7 +2,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { SessionService } from './services/session.service';
 import { Request, Response } from 'express';
-import { ResponseUtils } from '../../infra/reponseUtils/response.utils';
+import { ResponseUtils } from '@/infra/reponseUtils/response.utils';
 import { FinishSessionDto } from './dto/finish-session.dto';
 
 @ApiTags('Session')

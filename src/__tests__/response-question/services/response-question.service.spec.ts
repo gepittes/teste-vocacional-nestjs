@@ -1,13 +1,13 @@
-import { ResponseQuestionService } from '../../../app/response-question/services/response-question.service';
-import { ResponseQuestionRepository } from '../../../infra/repositories/response-question/response-question.repository';
-import { ResponseQuestions } from '../../../app/response-question/interfaces/response-questions.interface';
+import { ResponseQuestionService } from '@/app/response-question/services/response-question.service';
+import { ResponseQuestionRepository } from '@/infra/repositories/response-question/response-question.repository';
+import { ResponseQuestions } from '@/app/response-question/interfaces/response-questions.interface';
 import {
   Group,
   TypeResponse,
-} from '../../../app/question/interfaces/question.interface';
-import { SessionService } from '../../../app/session/services/session.service';
+} from '@/app/question/interfaces/question.interface';
+import { SessionService } from '@/app/session/services/session.service';
 import { ObjectId } from 'mongodb';
-import { base64 } from '../../../common/utils/hash.util';
+import { base64 } from '@/common/utils/hash.util';
 import Mocked = jest.Mocked;
 
 describe(`${ResponseQuestionService.name}`, () => {

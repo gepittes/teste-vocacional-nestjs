@@ -1,5 +1,5 @@
-import { MongoConnectionService } from '../../../infra/database/services/database.connection.service';
-import { DatabaseConnectionLogger } from '../../../infra/database/logger/database-connection/database-connection.logger.';
+import { MongoConnectionService } from '@/infra/database/services/database.connection.service';
+import { DatabaseConnectionLogger } from '@/infra/database/logger/database-connection/database-connection.logger.';
 import mongoose from 'mongoose';
 import Mocked = jest.Mocked;
 
