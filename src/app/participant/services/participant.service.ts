@@ -2,14 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   Participant,
   ParticipantSession,
-} from '../../common/interface/person.interface';
+} from '../../../common/interface/person.interface';
 import {
   PARTICIPANT_REPOSITORY,
   ParticipantRepository,
-} from '../../infra/repositories/participant/participant.repository';
-import { validateObject } from '../../common/utils/object.utils';
-import { SessionService } from '../session/services/session.service';
-import { ParticipantServiceLogger } from './logger/participant-service.logger';
+} from '../../../infra/repositories/participant/participant.repository';
+import { validateObject } from '../../../common/utils/object.utils';
+import { SessionService } from '../../session/services/session.service';
+import { ParticipantServiceLogger } from '../logger/participant-service.logger';
 
 @Injectable()
 export class ParticipantService {

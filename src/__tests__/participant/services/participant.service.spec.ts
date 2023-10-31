@@ -1,4 +1,3 @@
-import { ParticipantService } from '../../../app/participant/participant.service';
 import { ParticipantRepository } from '../../../infra/repositories/participant/participant.repository';
 import { Participant } from '../../../common/interface/person.interface';
 import { SessionService } from '../../../app/session/services/session.service';
@@ -6,6 +5,7 @@ import { Session } from '../../../app/session/interfaces/session.interface';
 import { base64 } from '../../../common/utils/hash.util';
 import { ParticipantServiceLogger } from '../../../app/participant/logger/participant-service.logger';
 import { ObjectId } from 'mongodb';
+import { ParticipantService } from '../../../app/participant/services/participant.service';
 import Mocked = jest.Mocked;
 
 describe(`${ParticipantService.name}`, () => {

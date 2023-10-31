@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ParticipantService } from './participant.service';
+import { ParticipantService } from './services/participant.service';
 import { ParticipantController } from './participant.controller';
 import { PARTICIPANT_REPOSITORY } from '../../infra/repositories/participant/participant.repository';
 import { MongooseParticipantRepository } from '../../infra/database/repository/participant/mongoose-participant.repository';

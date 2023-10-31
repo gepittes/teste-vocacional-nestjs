@@ -1,7 +1,7 @@
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { RegisterParticipantDto } from './dto/register-participant.dto';
-import { ParticipantService } from './participant.service';
+import { ParticipantService } from './services/participant.service';
 import { Request, Response } from 'express';
 import { ResponseUtils } from '../../infra/reponseUtils/response.utils';
 import { dataProcessing } from '../../common/utils/object.utils';

@@ -1,4 +1,4 @@
-import { ParticipantService } from '../participant.service';
+import { ParticipantService } from '../services/participant.service';
 import { Logger } from '@nestjs/common';
 import {
   Participant,
