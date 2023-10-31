@@ -21,6 +21,7 @@ describe(`${ParticipantService.name}`, () => {
     participantRepositoryMock = {
       getParticipantById: jest.fn(),
       registerParticipant: jest.fn(),
+      getAllParticipants: jest.fn(),
     };
 
     sessionService = {
@@ -42,6 +43,10 @@ describe(`${ParticipantService.name}`, () => {
       /* @TODO: check how change any to participantServiceLogger */
       participantServiceLogger as any,
     );
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
   it(`should be defined ${ParticipantService.name}`, () => {
@@ -117,5 +122,13 @@ describe(`${ParticipantService.name}`, () => {
         phone: '',
       }),
     ).rejects.toThrowError('phone is a required and cannot be empty');
+  });
+
+  it('should be call to find all participants', async () => {
+    await service.getAllParticipants();
+
+    expect(participantRepositoryMock.getAllParticipants).toBeCalledTimes(1);
+
+    expect(participantRepositoryMock.getAllParticipants).toBeCalledWith({});
   });
 });
