@@ -20,7 +20,9 @@ export class ParticipantServiceLogger {
     );
   }
 
-  registerParticipant(participant: ParticipantSession) {
+  registerParticipant(
+    participant: Pick<ParticipantSession, 'email' | 'sessionHash'>,
+  ) {
     this.logger.verbose(
       `New participant registered Email: ${participant.email}, Session: ${participant.sessionHash}`,
     );
